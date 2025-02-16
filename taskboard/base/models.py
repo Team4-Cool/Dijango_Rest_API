@@ -1,8 +1,15 @@
 from django.db import models
+from django.urls import reverse
 
 class Task(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
+
+    pub_date = models.DateTimeField(auto_now_add=True)
+    
+    def get_absolute_url(self):
+        return reverse("news-item", args=[self.pk])
+    
 
     def __str__(self) -> str:
         return self.name

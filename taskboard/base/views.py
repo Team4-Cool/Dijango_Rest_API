@@ -3,6 +3,9 @@ from .models import Task, Admin, User
 from .serializers import UserSerializer, AdminSerializer, TaskSerializer
 from django.shortcuts import render
 
+def RssView(request):
+    return render(request, 'rss.html')
+
 def home(request):
     return render(request, 'base/home.html')
 

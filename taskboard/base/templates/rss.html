@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSS Reader</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // const rssUrl = "http://127.0.0.1:8000/latest/feed/";
+            let prot = window.location.protocol;
+            if (prot === "https:") {
+                const rssUrl = "https://"+window.location.hostname+"/latest/feed/";
+            } else {
+                const rssUrl = "http://"+window.location.hostname+"/latest/feed/";
+            }
+
+            //const rssUrl = "https://"+window.location.hostname+"/latest/feed/";
+            fetch(rssUrl)
+                .then(response => response.text())
+                .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+                .then(data => {
+                    const items = data.querySelectorAll("item");
+                    let output = "<h2>Taskboard RSS Feed</h2><ul>";
+                    items.forEach(item => {
+                        const title = item.querySelector("title").textContent;
+                        const link = item.querySelector("link").textContent;
+                        const description = item.querySelector("description").textContent;
+                        output += `<li><a href="${link}" target="_blank">${title}</a> - ${description}</li>`;
+                    });
+                    output += "</ul>";
+                    document.getElementById("rss-feed").innerHTML = output;
+                })
+                .catch(error => console.error("Error fetching RSS feed:", error));
+        });
+    </script>
+</head>
+<body>
+    <div id="rss-feed">Завантаження...</div>
+</body>
+</html>
