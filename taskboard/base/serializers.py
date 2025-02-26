@@ -1,8 +1,5 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
-from .models import Task, Admin
-
-User = get_user_model()
+from .models import Task, User, Admin
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,4 +14,4 @@ class AdminSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ['name', 'description']
+        fields = ['name', 'description', 'status']
