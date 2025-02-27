@@ -1,0 +1,14 @@
+- model: accounts.Avatar
+  pk: 1
+  fields:
+    photo: avatars/bat.png
+
+- model: accounts.Avatar
+  pk: 2
+  fields:
+    photo: avatars/bear.png
+
+- model: accounts.Avatar
+  pk: 3
+  fields:
+    photo: avatars/bee.png
