@@ -21,7 +21,7 @@ BACKEND_DIR = os.path.dirname(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
 
 # Application definition
 
@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     "dj_rest_auth",
     "dj_rest_auth.registration",
     "django_extensions",
+    
+    'corsheaders',
+     'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +57,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
      'allauth.account.middleware.AccountMiddleware',
+     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -118,12 +123,13 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+from pathlib import Path
 
+BASE_DIR = Path(__file__).resolve().parent.parent
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-STATIC_URL = os.environ.get("DJANGO_STATIC_URL", "/django-static/")
-STATIC_ROOT = os.environ.get("DJANGO_STATIC_ROOT", "./django-static/")
-
+STATIC_URL = os.environ.get("DJANGO_STATIC_URL", "/static/")
+STATIC_ROOT = os.environ.get("DJANGO_STATIC_ROOT", os.path.join(BASE_DIR, "staticfiles"))
 # Media files
 MEDIA_ROOT = "./media"
 MEDIA_URL = "/media/"
@@ -150,9 +156,19 @@ REST_AUTH_SERIALIZERS = {"TOKEN_SERIALIZER": "accounts.serializers.TokenSerializ
 SITE_ID = 1
 
 # Configure django-allauth
-ACCOUNT_EMAIL_REQUIRED = True
+# settings.py
 
-ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = 'none'  # Не вимагати підтвердження електронної пошти
+ACCOUNT_EMAIL_REQUIRED = False  # Не вимагати електронну пошту
+ACCOUNT_CONFIRM_EMAIL_ON_GET = False  # Не підтверджувати пошту за допомогою GET запиту
+
 
 # Allow entering as a guest
 ALLOW_GUEST_ACCESS = bool(os.environ.get("DJANGO_ALLOW_GUEST_ACCESS", default=""))
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://109.87.215.193:5173",
+]
+
+ALLOWED_HOSTS = ['*']

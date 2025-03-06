@@ -42,5 +42,15 @@ if DEBUG_TOOLBAR:
 
     # Needed for django-debug-toolbar
     INTERNAL_IPS = [
-        "127.0.0.1",
+        "109.87.215.193",
     ]
+
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
